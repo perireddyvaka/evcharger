@@ -6,42 +6,42 @@ Features
 
 User Role:
 
-Monitor charging history with parameters such as:
+ Monitor charging history with parameters such as:
 
-Charger ID
-
-Amount charged
-
-Time of charging
+    Charger ID
+    
+    Amount charged
+    
+    Time of charging
 
 Admin Role:
 
-Monitor charger details such as:
+ Monitor charger details such as:
 
-Coordinates of the chargers
-
-Charger health status
+    Coordinates of the chargers
+    
+    Charger health status
 
 Common Features:
 
-User authentication and role-based access.
+    User authentication and role-based access.
+    
+    Filtering options for efficient data management.
+    
+    Interactive map integration using Leaflet for charger locations.
+  **
+  Analytical insights for better data understanding:**
 
-Filtering options for efficient data management.
+    Graphical representation of charging trends over time.
+    
+    Summary statistics, such as total charges and average session durations.
+    
+    Charger health analytics for predictive maintenance.
 
-Interactive map integration using Leaflet for charger locations.
-
-Analytical insights for better data understanding:
-
-Graphical representation of charging trends over time.
-
-Summary statistics, such as total charges and average session durations.
-
-Charger health analytics for predictive maintenance.
-
-Setup Instructions
-
-Follow these steps to set up the EV Charger Monitoring Dashboard on your local machine.
-
+**Setup Instructions
+**
+**Follow these steps to set up the EV Charger Monitoring Dashboard on your local machine.
+**
 Clone the Repository
 
 First, clone the project repository from GitHub:
