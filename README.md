@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+EV Charger Monitoring Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This web-based dashboard provides monitoring capabilities for EV chargers. It features user and admin roles, each with specific functionalities, and includes user-friendly features such as filtering, history tracking, and user authentication.
 
-## Available Scripts
+Features
 
-In the project directory, you can run:
+User Role:
 
-### `npm start`
+Monitor charging history with parameters such as:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Charger ID
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Amount charged
 
-### `npm test`
+Time of charging
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Admin Role:
 
-### `npm run build`
+Monitor charger details such as:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Coordinates of the chargers
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Charger health status
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Common Features:
 
-### `npm run eject`
+User authentication and role-based access.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Filtering options for efficient data management.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Interactive map integration using Leaflet for charger locations.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Analytical insights for better data understanding:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Graphical representation of charging trends over time.
 
-## Learn More
+Summary statistics, such as total charges and average session durations.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Charger health analytics for predictive maintenance.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Setup Instructions
 
-### Code Splitting
+Follow these steps to set up the EV Charger Monitoring Dashboard on your local machine.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Clone the Repository
 
-### Analyzing the Bundle Size
+First, clone the project repository from GitHub:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+git clone https://github.com/perireddyvaka/evcharger.git
 
-### Making a Progressive Web App
+Backend Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Navigate to the backend directory (if applicable) or work in the main project directory.
 
-### Advanced Configuration
+Install the required Python libraries and modules:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+pip install fastapi uvicorn requests
 
-### Deployment
+Start the FastAPI backend server by running:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+python main.py
 
-### `npm run build` fails to minify
+Frontend Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Navigate to the evcharger directory:
+
+cd evcharger
+
+Install the required React scripts and dependencies:
+
+npm install react-scripts @mui/material react-dom leaflet
+
+Start the React frontend application:
+
+npm start
+
+Usage
+
+Once the backend and frontend are running, open the web application in your browser (default: http://localhost:3000).
+
+Login using your credentials:
+
+User role: Access your charging history.
+
+Admin role: Monitor charger coordinates and health.
+
+Explore filtering options, graphical analytics, and other features as per your role.
+
+Technologies Used
+
+Frontend: React, Material-UI, Leaflet
+
+Backend: FastAPI, Python
+
+Database: OM2M (for EV charger data storage)
+
+Contribution
+
+Feel free to fork the repository and create pull requests for any improvements or new features. For major changes, please open an issue to discuss what you would like to change.
+
+License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+Support
+
+For any issues or questions, please contact Peri Reddy Vaka or raise an issue in the GitHub repository.
+
