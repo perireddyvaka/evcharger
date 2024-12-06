@@ -54,55 +54,54 @@ Navigate to the backend directory (if applicable) or work in the main project di
 
 Install the required Python libraries and modules:
 
-pip install fastapi uvicorn requests
+            pip install fastapi uvicorn requests
 
 Start the FastAPI backend server by running:
 
-python main.py
+            python main.py
 
-Frontend Setup
+**Frontend Setup**
 
-Navigate to the evcharger directory:
+1. Navigate to the evcharger directory:
 
-cd evcharger
+            cd evcharger
 
-Install the required React scripts and dependencies:
+2. Install the required React scripts and dependencies:
 
-npm install react-scripts @mui/material react-dom leaflet
+            npm install react-scripts @mui/material react-dom leaflet
 
-Start the React frontend application:
+3. Start the React frontend application:
 
-npm start
+            npm start
 
-Usage
+****Usage****
+1. Once the backend and frontend are running, open the web application in your browser (default: http://localhost:3000).
 
-Once the backend and frontend are running, open the web application in your browser (default: http://localhost:3000).
+2. Login using your credentials:
 
-Login using your credentials:
+            User role: Access your charging history.
+            
+            Admin role: Monitor charger coordinates and health.
 
-User role: Access your charging history.
+3. Explore filtering options, graphical analytics, and other features as per your role.
 
-Admin role: Monitor charger coordinates and health.
+****Technologies Used****
 
-Explore filtering options, graphical analytics, and other features as per your role.
+            Frontend: React, Material-UI, Leaflet
+                        
+            Backend: FastAPI, Python
+                        
+            Database: OM2M (for EV charger data storage)
 
-Technologies Used
-
-Frontend: React, Material-UI, Leaflet
-
-Backend: FastAPI, Python
-
-Database: OM2M (for EV charger data storage)
-
-Contribution
+**Contribution**
 
 Feel free to fork the repository and create pull requests for any improvements or new features. For major changes, please open an issue to discuss what you would like to change.
 
-License
+**License**
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-Support
+**Support**
 
 For any issues or questions, please contact Peri Reddy Vaka or raise an issue in the GitHub repository.
 
