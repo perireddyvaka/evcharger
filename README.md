@@ -103,5 +103,5 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 **Support**
 
-For any issues or questions, please contact Peri Reddy Vaka or raise an issue in the GitHub repository.
+For any issues or questions, please contact [perireddyvaka]([perireddyvaka](https://github.com/perireddyvaka/evcharger)) or raise an issue in the GitHub repository.
 
