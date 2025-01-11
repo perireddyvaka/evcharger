@@ -14,20 +14,24 @@ const UserDashboard = () => {
         }
         const data = await response.json();
         if (data.transactions) {
+          // Map and process transactions
           const mappedTransactions = data.transactions.map(transaction => ({
-            charger: transaction.Charger_id,
-            amount: transaction.Transaction_Amount,
+            charger: transaction.Charger_ID,
+            amount: transaction["Transaction_Amount(Rupees)"],
             time: new Date(transaction.Timestamp * 1000).toLocaleString('en-IN', {
               year: 'numeric',
               month: '2-digit',
               day: '2-digit',
               hour: '2-digit',
               minute: '2-digit',
-              second: '2-digit',
+              // second: '2-digit',
               hour12: false,
             }),
           }));
-          setTransactions(mappedTransactions);
+
+          // Get the last 10 transactions in reverse order
+          const last10Transactions = mappedTransactions.slice(-5).reverse();
+          setTransactions(last10Transactions);
         } else {
           console.error('Error: No transactions found in the response');
         }
@@ -50,8 +54,8 @@ const UserDashboard = () => {
           <img src={scrclogo} alt="Profile" style={{ borderRadius: '50%', width: '150px', height: '150px' }} />
         </div>
         <div style={{ flex: '1', textAlign: 'right', paddingRight: '20px' }}>
-          <h2 style={{ margin: '0', fontSize: '24px' }}>Name: John Doe</h2>
-          <p style={{ margin: '5px 0', fontSize: '18px' }}>User ID: 123456</p>
+          <h2 style={{ margin: '0', fontSize: '24px' }}>Name: Rohan Gupta</h2>
+          <p style={{ margin: '5px 0', fontSize: '18px' }}>User ID: 7503</p>
         </div>
       </div>
 
@@ -60,9 +64,9 @@ const UserDashboard = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              <th style={{ border: '1px solid #444', padding: '10px', textAlign: 'left', backgroundColor: '#333', color: '#fff' }}>Charger</th>
-              <th style={{ border: '1px solid #444', padding: '10px', textAlign: 'left', backgroundColor: '#333', color: '#fff' }}>Amount</th>
-              <th style={{ border: '1px solid #444', padding: '10px', textAlign: 'left', backgroundColor: '#333', color: '#fff' }}>Time</th>
+              <th style={{ border: '1px solid #444', padding: '10px', textAlign: 'left', backgroundColor: '#333', color: '#fff', textAlignLast: 'center'}}>Charger</th>
+              <th style={{ border: '1px solid #444', padding: '10px', textAlign: 'left', backgroundColor: '#333', color: '#fff', textAlignLast: 'center' }}>Amount</th>
+              <th style={{ border: '1px solid #444', padding: '10px', textAlign: 'left', backgroundColor: '#333', color: '#fff', textAlignLast: 'center' }}>Time</th>
             </tr>
           </thead>
           <tbody>

@@ -1,24 +1,20 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
-import AppBar from './appbar'; // Import the AppBar component
-import axios from 'axios'; // Import axios for API calls
-import moment from 'moment-timezone'; // Import moment-timezone for date manipulation
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'; // Leaflet components
-import L from 'leaflet'; // Leaflet library
-import 'leaflet/dist/leaflet.css'; // Leaflet CSS
-
-// Import custom marker image
-import markerImage from './image.png'; // Adjust this path based on where the image is stored
+import AppBar from './appbar';
+import axios from 'axios';
+import moment from 'moment-timezone';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import markerImage from './image.png';
 
 class ChargerDashboard extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      charger1Series: [], // To hold the fetched data for Charger 1
-      charger2Series: [
-        { name: 'Charger 2', data: this.generateDummyData() }, // Dummy data for Charger 2
-      ],
+      charger1Series: [],
+      charger2Series: [],
       options: {
         chart: {
           height: 350,
@@ -35,17 +31,15 @@ class ChargerDashboard extends React.Component {
         },
         dataLabels: {
           enabled: true,
-          formatter: function (val) {
-            return val + " kWh";
-          },
+          formatter: (val) => `${val} kWh`,
           offsetY: -20,
           style: {
             fontSize: '12px',
-            colors: ["#ffffff"], // Set data label color to white
+            colors: ['#ffffff'],
           },
         },
         xaxis: {
-          categories: [], // To be filled with timestamps in IST
+          categories: [],
           position: 'top',
           axisBorder: {
             show: false,
@@ -55,7 +49,7 @@ class ChargerDashboard extends React.Component {
           },
           labels: {
             style: {
-              colors: '#ffffff', // Set x-axis labels color to white
+              colors: '#ffffff',
             },
           },
         },
@@ -67,104 +61,105 @@ class ChargerDashboard extends React.Component {
             show: false,
           },
           labels: {
-            show: true,
-            formatter: function (val) {
-              return val + " kWh";
-            },
+            formatter: (val) => `${val} kWh`,
             style: {
-              colors: '#ffffff', // Set y-axis labels color to white
+              colors: '#ffffff',
             },
           },
         },
         title: {
-          text: 'Monthly Energy Consumption for Chargers',
+          text: 'Energy Consumption for Chargers',
           floating: true,
           offsetY: 330,
           align: 'center',
           style: {
-            color: '#ffffff', // Set title color to white
+            color: '#ffffff',
           },
         },
         tooltip: {
           theme: 'dark',
           style: {
             fontSize: '14px',
-            color: '#000000', // Set tooltip text color to black
+            color: '#000000',
           },
         },
       },
       positions: [
         [17.445289, 78.349593],
         [17.445160, 78.349806],
-      ], // Provided coordinates
+      ],
     };
+
+    this.updateInterval = null;
   }
 
   componentDidMount() {
-    // Fetch data for Charger 1
-    this.fetchChargerData();
+    this.fetchData();
+    this.updateInterval = setInterval(this.fetchData, 3600000); // Update every 1 hour
   }
 
-  fetchChargerData = async () => {
+  componentWillUnmount() {
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+    }
+  }
+
+  fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/charger/get-transactions");
-      const transactions = response.data.transactions || []; // Assuming the data has a 'transactions' field
+      const [charger1Response, charger2Response] = await Promise.all([
+        axios.get('http://localhost:8000/charger/get-transactions'),
+        axios.get('http://localhost:8000/charger/get-transactions-2'),
+      ]);
 
-      // Process the fetched data
-      const charger1Data = transactions.map(item => ({
-        x: moment.unix(item.Timestamp).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'), // Convert to IST
-        y: item.Units_consumed, // Units consumed
-      }));
+      const processData = (transactions) => {
+        return transactions
+          .slice(-10) // Limit to the last 10 records
+          .map((item) => ({
+            x: moment.unix(item.Timestamp).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
+            y: item.Units_Consumed || 0,
+          }));
+      };
 
-      // Set the state with fetched data for Charger 1
+      const charger1Data = processData(charger1Response.data.transactions || []);
+      const charger2Data = processData(charger2Response.data.transactions || []);
+
       this.setState({
         charger1Series: [
-          { name: 'Charger 1', data: charger1Data }, // Update Charger 1 data
+          { name: 'Charger 1', data: charger1Data },
+        ],
+        charger2Series: [
+          { name: 'Charger 2', data: charger2Data },
         ],
         options: {
           ...this.state.options,
           xaxis: {
             ...this.state.options.xaxis,
-            categories: charger1Data.map(item => item.x), // Set x-axis categories as time in IST
+            categories: charger1Data.map((item) => item.x),
           },
         },
       });
     } catch (error) {
-      console.error("Error fetching charger data:", error);
+      console.error('Error fetching data:', error);
     }
-  };
-
-  generateDummyData = () => {
-    const dummyData = [];
-    for (let i = 1; i <= 12; i++) {
-      dummyData.push({
-        x: `2024-${String(i).padStart(2, '0')}-01`, // Generate random date (dummy data)
-        y: Math.floor(Math.random() * 20) + 5, // Random units consumed between 5 and 25
-      });
-    }
-    return dummyData;
   };
 
   render() {
     return (
-      <div style={{ backgroundColor: '#121212', color: '#fff', minHeight: '100vh', padding: '20px' }}>
+      <div style={{ backgroundColor: '#121212', color: '#fff', minHeight: '90vh', padding: '20px', overflow: 'hidden' }}>
         <AppBar />
-        
-        {/* Map Section */}
-        <div style={{ height: '45vh', marginTop: '1vw' }}>
+
+        <div style={{ height: '40vh', marginTop: '1vw' }}>
           <MapContainer center={[17.445289, 78.349593]} zoom={17} style={{ width: '100%', height: '100%' }}>
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {this.state.positions.map((position, index) => (
               <Marker
                 key={index}
-                position={position} // Set position from state
+                position={position}
                 icon={new L.Icon({
-                  iconUrl: markerImage, // Use the custom image as the marker icon
-                  iconSize: [70, 70], // Adjust the size of the marker icon as needed
-                  iconAnchor: [15, 30], // Adjust the anchor point to position it correctly
-                  popupAnchor: [0, -30], // Adjust the popup anchor if needed
+                  iconUrl: markerImage,
+                  iconSize: [70, 70],
+                  iconAnchor: [15, 30],
+                  popupAnchor: [0, -30],
                 })}
               >
                 <Popup>{`Charger ${index + 1}`}</Popup>
@@ -173,27 +168,24 @@ class ChargerDashboard extends React.Component {
           </MapContainer>
         </div>
 
-        {/* Charger Energy Consumption Section */}
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, marginRight: '20px' }}>
-            <h3>Charger 1 Energy Consumption</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', height: '24vw' }}>
+          <div style={{ flex: 1, marginRight: '20px', height: '2vw' }}>
+            <h4>Charger 1 Energy Consumption</h4>
             <ReactApexChart
               options={this.state.options}
               series={this.state.charger1Series}
               type="bar"
-              height={350}
+              height={310}
             />
-            
           </div>
-          
 
           <div style={{ flex: 1 }}>
-            <h3>Charger 2 Energy Consumption</h3>
+            <h4>Charger 2 Energy Consumption</h4>
             <ReactApexChart
               options={this.state.options}
               series={this.state.charger2Series}
               type="bar"
-              height={350}
+              height={310}
             />
           </div>
         </div>

@@ -61,7 +61,7 @@ export default function PrimarySearchAppBar() {
         sx={{
           backgroundColor: '#05445E',
           height: '8.5vh',
-          width: '101vw',
+          width: '99.5vw',
           marginTop: '-1vw',
           marginLeft: '-2vw',
         }}
@@ -73,7 +73,15 @@ export default function PrimarySearchAppBar() {
               <img src={scrclogo} alt="SCRC Logo" width={140} height={85} />
             </Box>
           </Box>
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ 
+    flexGrow: 1, 
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    position: 'absolute', 
+    left: '50%', 
+    transform: 'translateX(-50%)' 
+  }}>
             <Typography variant="h4" noWrap component="div">
               {getTitle()}
             </Typography>
@@ -83,7 +91,9 @@ export default function PrimarySearchAppBar() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <IconButton size="large" edge="end" aria-label="account of current user" color="inherit">
+            <IconButton size="large" edge="end" aria-label="account of current user" color="inherit"
+            sx={{left: '75vw'}}
+            >
               <AccountCircle />
             </IconButton>
             {isHovered && (
@@ -91,7 +101,7 @@ export default function PrimarySearchAppBar() {
                 sx={{
                   position: 'absolute',
                   top: '100%',
-                  right: 0,
+                  left: '65vw',
                   backgroundColor: 'black',
                   boxShadow: 1,
                   borderRadius: 1,

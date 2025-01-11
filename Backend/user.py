@@ -43,6 +43,7 @@ def map_descriptor_data(descriptor):
         if 'm2m:cnt' in descriptor:
             descriptor_content = descriptor['m2m:cnt']
             cin_content = descriptor_content.get('m2m:cin', [])
+            # print(cin_content)
             if cin_content:
                 con = cin_content[0].get('con', '')
                 if '<str name="Data String Parameters"' in con:
@@ -61,20 +62,31 @@ def map_transaction_data(transactions, data_keys):
     try:
         logger.info("Mapping transaction data...")
         mapped_transactions = []
+        
         if 'm2m:cnt' in transactions:
             transaction_content = transactions['m2m:cnt']
+            # print(transaction_content)
             cin_list = transaction_content.get('m2m:cin', [])
+            # print(cin_list)
             for cin in cin_list:
                 con_values = cin.get('con', '')
+                print(con_values)
                 try:
-                    values = json.loads(con_values)
+                    values = eval(con_values)
+                    print("values", values)
+                    print(len(values))
+                    print(len(data_keys))
                     if len(values) == len(data_keys):
+                        print("ok this is good")
                         transaction_mapping = dict(zip(data_keys, values))
                         mapped_transactions.append(transaction_mapping)
                 except (json.JSONDecodeError, ValueError) as e:
                     logger.error(f"Error parsing transaction content: {e}")
+                    print("data", data_keys)
+                   
         logger.info(f"Mapped transactions: {json.dumps(mapped_transactions, indent=4)}")
         return mapped_transactions
+    
     except Exception as e:
         logger.error(f"Error mapping transaction data: {e}")
         return []
